@@ -1,47 +1,62 @@
-const employeeList = require("../app/data/employees");
+
+
+const employees = require('../data/employees');
+
+
 
 module.exports = function(app) {
-  app.get("/api/employees", function(req, res) {
-    res.json(employeeList);
+ 
+
+  app.get('/api/employees', function(req, res) {
+    res.json(employees);
   });
 
-  app.post("/api/employees", (req, res) => {
-    employeeList.push(req.body);
+  
 
-    //puts each employee's score array's sum into an array
-    const sum = (a, b) => Number(a) + Number(b);
-    const output = employeeList.map(({ scores }) => scores.reduce(sum));
+  app.post('/api/employees', function(req, res) {
+   
+    const bestMatch = {
+      name: '',
+      photo: '',
+      employeeDifference: Infinity
+    };
 
-    //get the difference between last number in the array(user input) & each number in output array
-    let newArray = output.map(value => {
-      return Math.abs(value - output[output.length - 1]); //Math.abs gets absolute value so that there's no negative values when getting diffferences
-    });
+    
+    const userData = req.body;
+    const userScores = userData.scores;
 
-    const firstMatchIndex = newArray.findIndex((value, i, array) => {
-      return value === Math.min(...array);
-    });
-    const firstMatch = employeeList[firstMatchIndex];
+    
+    let totalDifference;
 
-    return res.json(firstMatch);
+    
+    for (let i = 0; i < employees.length; i++) {
+      const currentEmployee = employees[i];
+      totalDifference = 0;
 
-    // res.end();
+      
+      for (let j = 0; j < currentEmployee.scores.length; j++) {
+        const currentEmployeeScore = currentEmployee.scores[j];
+        const currentUserScore = userScores[j];
+
+       
+        totalDifference += Math.abs(
+          parseInt(currentUserScore) - parseInt(currentEmployeeScore)
+        );
+      }
+
+      
+      if (totalDifference <= bestMatch.employeeDifference) {
+        
+        bestMatch.name = currentEmployee.name;
+        bestMatch.photo = currentEmployee.photo;
+        bestMatch.employeeDifference = totalDifference;
+      }
+    }
+
+    
+    employees.push(userData);
+
+    
+    res.json(bestMatch);
   });
 };
-
-function findIndex(array, test) {
-  for (let i = 0; i < array.length; i++) {
-    if (test(array[i], i, array)) {
-      return i;
-    }
-  }
-  return -1;
-}
-function equals2(value, x, y) {
-  return value === 2;
-}
-function equals3(value) {
-  return value === 3;
-}
-const array = [1, 2, 3];
-findIndex(array, equals2);
-findIndex(array, equals3);

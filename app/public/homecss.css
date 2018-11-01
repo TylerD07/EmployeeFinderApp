@@ -1,0 +1,19 @@
+/* Custom CSS to over rule Bootstrap */
+
+body{
+    background-color:aqua;
+    text-align: center;
+}
+
+.jumbotron{
+    background-color: #303030;
+    color: aqua;
+    border-radius: 5rem;
+    text-align: center;
+}
+
+.btn-primary {
+    color: #303030 ;
+    background-color: aqua;
+    border-color: aqua;
+}

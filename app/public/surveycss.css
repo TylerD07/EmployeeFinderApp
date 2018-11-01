@@ -1,0 +1,29 @@
+/* Custom CSS to over rule Bootstrap */
+
+.h2, h2 {
+    font-size: 2rem;
+    background-color: #303030;
+    padding: 8px;
+    border: 2px;
+    border-radius: 3rem;
+    color: aqua;
+}
+
+body{
+    background-color: darkgray;
+}
+
+.btn-primary {
+    color: aqua;
+    background-color: #303030;
+    border-color: #303030;
+}
+
+strong, h4{
+    color: #303030;
+}
+
+#modal{
+    color: aqua;
+}
+
